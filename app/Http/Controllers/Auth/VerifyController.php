@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ResendOtpRequest;
+use App\Http\Requests\Auth\VerifyOtpRequest;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
@@ -10,12 +12,9 @@ use Illuminate\Http\Request;
 class VerifyController extends Controller
 {
     use ApiResponse;
-    public function verifyOtp(Request $request)
+    public function verifyOtp(VerifyOtpRequest $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'otp' => ['required', 'string'],
-        ]);
+
 
         $user = User::where('email', $request->email)
             ->where('otp', $request->otp)
@@ -37,12 +36,8 @@ class VerifyController extends Controller
         return $this->success(null, 'OTP verified successfully');
     }
     // resend OTP method
-    public function resendOtp(Request $request)
+    public function resendOtp(ResendOtpRequest $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-        ]);
-
         $user = User::where('email', $request->email)->first();
 
         if (!$user) {
