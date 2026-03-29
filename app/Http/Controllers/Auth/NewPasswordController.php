@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Models\User;
 use App\Traits\ApiResponse;
 use Illuminate\Auth\Events\PasswordReset;
@@ -22,13 +23,8 @@ class NewPasswordController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): JsonResponse
+    public function store(ResetPasswordRequest $request): JsonResponse
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-            'otp' => ['required'],
-            'password' => ['required', 'confirmed'],
-        ]);
 
         $user = User::where('email', $request->email)
             ->where('otp', $request->otp)
