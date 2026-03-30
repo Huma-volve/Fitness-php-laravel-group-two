@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('trainer_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('trainer_packages_id')->constrained('trainer_packages')->cascadeOnDelete();
 
-            $table->enum('payment_status', ['pending', 'confirmed', 'canceled', 'completed'])->default('pending');
+            $table->foreignId('trainer_package_id')->constrained('trainer_packages')->cascadeOnDelete();
+
+            $table->enum('status', ['pending', 'confirmed', 'cancelled', 'completed'])->default('pending');
+            
+            $table->date('date')->nullable();
+            $table->time('time')->nullable();
             $table->timestamps();
         });
     }

@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('booking_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('booking_id')
+                ->constrained('bookings')
+                ->cascadeOnDelete();
+
 
             $table->decimal('amount', 10, 2);
-            $table->enum('payment_method', ['paypal', 'stripe', 'cache'])->default('stripe');
-            $table->enum('payment_status', ['pending', 'confirmed', 'canceled', 'completed'])->default('pending');
+            $table->enum('payment_method', ['paypal', 'stripe', 'cach'])->default('stripe');
+            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending');
+            $table->timestamp('paid_at')->nullable();
 
             $table->string('transaction_id')->nullable();
             $table->timestamps();
