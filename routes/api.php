@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Auth\VerifyController;
@@ -16,3 +17,7 @@ Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleC
 require __DIR__ . '/auth.php';
 
 Route::apiResource('packages', PackageController::class);
+Route::apiResource('Booking', BookingController::class);
+Route::get('/Booking/confirm/{id}', [BookingController::class, 'confirm']);
+Route::get('/Booking/cancel/{id}', [BookingController::class, 'cancel']);
+Route::post('/Booking/reschedule/{id}', [BookingController::class, 'reschedule']);
